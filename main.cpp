@@ -1,51 +1,78 @@
-#include <iostream>
-#include<algorithm>
-
+#include<bits/stdc++.h>
 using namespace std;
 
+// A node of BFS traversal
+struct node
+{
+    int val;
+    int level;
+};
+
+
+int minOperations(int x, int y)
+{
+    // To keep track of visited numbers
+    // in BFS.
+    set<int> visit;
+
+    // Create a queue and enqueue x into it.
+    queue<node> q;
+    node n = {x, 0};
+    q.push(n);
+
+
+    // Do BFS starting from x
+    while (!q.empty())
+    {
+        // Remove an item from queue
+        node t = q.front();
+        q.pop();
+
+        // If the removed item is target
+        // number y, return its level
+        if (t.val == y)
+            return t.level;
+
+        // Mark dequeued number as visited
+        visit.insert(t.val);
+
+        // If we can reach y in one more step
+        if (t.val*2 == y || t.val+1 == y)
+            return t.level+1;
+
+        // Insert children of t if not visited
+        // already
+        if (visit.find(t.val*2) == visit.end())
+        {
+            n.val = t.val*2;
+            n.level = t.level+1;
+            q.push(n);
+        }
+        if (t.val+1>=0 && visit.find(t.val+1) == visit.end())
+        {
+            n.val = t.val+1;
+            n.level = t.level+1;
+            q.push(n);
+        }
+    }
+}
+
+// Driver code
 int main()
 {
-    int t , n , i, start , end1 , j,k;
-    cin >> t ;
+    int t ,  i  ;
+    int a[t] ;
+    for(i = 0 ; i < t ; i++)
+        cin >> a[i] ;
+    i= 0 ;
     while(t--)
     {
-        int flag = 0 ;
-        cin >> n ;
-        int c[n] , h[n] , real[n];
-        for(i=0;i<n;i++)
-        {
-            cin >> c[i] ;
-        }
-        for(i=0;i<n;i++)
-        {
-            cin >> h[i] ;
-            real[i] = 0 ;
-        }
-        for(j = 0 ; j < n ; j++)
-        {
-            start = j - c[j] ;
-            end1 = j + c[j] ;
-            if(start < 0)
-                start = 0 ;
-            if(end1>n)
-                end1= n-1 ;
-            for(i = start ; i <= end1 ; i++)
-            {
-                real[i] = real[i] + 1 ;
-            }
-        }
-        sort(real,real+n) ;
-        sort(h,h+n) ;
+        cout << minOperations(1,a[i]);
+        i++ ;
 
-        for(i=0;i<n;i++)
-        {
-            if(real[i] != h[i])
-                flag= 1 ;
-        }
-        if(flag ==0 )
-            cout <<"YES" << endl ;
-        else
-            cout <<"NO" << endl ;
     }
     return 0;
 }
+
+
+

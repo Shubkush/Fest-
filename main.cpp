@@ -5,50 +5,47 @@ using namespace std;
 
 int main()
 {
-    int t , j, i ;
+    int t , n , i, start , end1 , j,k;
     cin >> t ;
     while(t--)
     {
-        int n , k , e , m , kul, opp, final1 = 0 ;
-        cin >> n >> k >> e >> m ;
-        int sum[n-1] ;
-
-        for(j = 0 ; j< n-1 ; j++)
+        int flag = 0 ;
+        cin >> n ;
+        int c[n] , h[n] , real[n];
+        for(i=0;i<n;i++)
         {
-            int b[e] ;
-            kul = 0 ;
-            for(i = 0 ; i < e ; i++)
+            cin >> c[i] ;
+        }
+        for(i=0;i<n;i++)
+        {
+            cin >> h[i] ;
+            real[i] = 0 ;
+        }
+        for(j = 0 ; j < n ; j++)
+        {
+            start = j - c[j] ;
+            end1 = j + c[j] ;
+            if(start < 0)
+                start = 0 ;
+            if(end1>n)
+                end1= n-1 ;
+            for(i = start ; i <= end1 ; i++)
             {
-                cin >> b[i] ;
-                kul = kul + b[i] ;
+                real[i] = real[i] + 1 ;
             }
-            sum[j] = kul ;
         }
-        int c[e-1] ;
-        kul = 0 ;
-        for(j = 0 ; j < e-1 ; j++)
-        {
-            cin >> c[j] ;
-            kul = kul+ c[j] ;
-        }
-        sort(sum , sum+(n-1), greater<int>()) ;
+        sort(real,real+n) ;
+        sort(h,h+n) ;
 
-        opp = sum[k-1] ;
-
-        final1 = (opp - kul + 1) ;
-
-        if(final1 <= m && final1 > 0)
+        for(i=0;i<n;i++)
         {
-            cout << final1  << endl ;
+            if(real[i] != h[i])
+                flag= 1 ;
         }
-        else if (final1 <= 0 )
-        {
-            cout << "0" << endl ;
-        }
+        if(flag ==0 )
+            cout <<"YES" << endl ;
         else
-        {
-            cout << "Impossible" << endl ;
-        }
+            cout <<"NO" << endl ;
     }
     return 0;
 }

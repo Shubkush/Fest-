@@ -1,42 +1,54 @@
 #include <iostream>
+#include<algorithm>
 
 using namespace std;
 
 int main()
 {
-    int t , n , i , mean, res, flag;
-    unsigned long long int sum ;
+    int t , j, i ;
     cin >> t ;
     while(t--)
     {
-        sum = 0;
-        flag =0 ;
-        cin >> n ;
-        int a[n] ;
-        for(i=0; i <n;i++)
+        int n , k , e , m , kul, opp, final1 = 0 ;
+        cin >> n >> k >> e >> m ;
+        int sum[n-1] ;
+
+        for(j = 0 ; j< n-1 ; j++)
         {
-            cin >> a[i] ;
-            sum = sum+a[i] ;
-        }
-        if(sum%n != 0 )
-            flag = 0 ;
-        else
-        {
-            mean =(sum/n) ;
-            for(i = 0 ; i<n;i++)
+            int b[e] ;
+            kul = 0 ;
+            for(i = 0 ; i < e ; i++)
             {
-                if(a[i] == mean)
-                {
-                    res = i+1 ;
-                    flag = 1 ;
-                    break  ;
-                }
+                cin >> b[i] ;
+                kul = kul + b[i] ;
             }
+            sum[j] = kul ;
         }
-        if(flag == 1)
-            cout << res << endl ;
+        int c[e-1] ;
+        kul = 0 ;
+        for(j = 0 ; j < e-1 ; j++)
+        {
+            cin >> c[j] ;
+            kul = kul+ c[j] ;
+        }
+        sort(sum , sum+(n-1), greater<int>()) ;
+
+        opp = sum[k-1] ;
+
+        final1 = (opp - kul + 1) ;
+
+        if(final1 <= m && final1 > 0)
+        {
+            cout << final1  << endl ;
+        }
+        else if (final1 <= 0 )
+        {
+            cout << "0" << endl ;
+        }
         else
+        {
             cout << "Impossible" << endl ;
+        }
     }
     return 0;
 }
